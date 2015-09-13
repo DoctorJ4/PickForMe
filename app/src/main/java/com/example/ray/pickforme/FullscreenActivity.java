@@ -2,20 +2,12 @@ package com.example.ray.pickforme;
 
 import com.example.ray.pickforme.util.SystemUiHider;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -53,25 +45,39 @@ public class FullscreenActivity extends Activity {
 
     public void PickOne (View view)
     {
+        if(!fieldsCheck())
+        {
+            Toast.makeText(this, "You need to supply me with more than one thing to pick from.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            TextView result = (TextView) findViewById(R.id.Result);
+            int num = editBoxIdList.size();
+            Random rand = new Random();
+            EditText picked;
 
-        TextView result = (TextView) findViewById(R.id.Result);
-        //int num = Integer.getInteger(numberList.getSelectedItem().toString());
+            do {
+                picked = (EditText) findViewById(editBoxIdList.get(rand.nextInt(num)));
+            } while ((picked.getText().length() < 1));
+            result.setText(picked.getText());
+        }
+    }
 
-        int num = editBoxIdList.size();
-        Random rand = new Random();
-
+    Boolean fieldsCheck()
+    {
         EditText picked;
-        Log.d("I made it!", String.valueOf(1));
-        do {
-            picked = (EditText) findViewById(editBoxIdList.get(rand.nextInt(num)));
-            Log.d("I made it!", String.valueOf(2));
-            Log.d("I made it!", String.valueOf(picked.getText().length() < 1));
-            //Log.d("I made it!", String.valueOf(picked.getHint() != null));
-        }while((picked.getText().length() < 1));
-        Log.d("I made it!", String.valueOf(3));
-        Log.d("I made it!", String.valueOf(picked.getText()));
-        result.setText(picked.getText());
-
+        int count = 0;
+        for(int i = 0; i < editBoxIdList.size(); i++)
+        {
+            picked = (EditText) findViewById(editBoxIdList.get(i));
+            if(picked.getText().length() > 0)
+            {
+                count++;
+                if(count > 1)
+                {return true;}
+            }
+        }
+        return false;
     }
 
 
