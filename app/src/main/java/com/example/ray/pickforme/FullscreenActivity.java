@@ -37,7 +37,7 @@ public class FullscreenActivity extends Activity {
         editBoxIdList.add(R.id.editText8);
         editBoxIdList.add(R.id.editText9);
         //String [] categories = {"2", "3", "4", "5", "6", "7", "8", "9", "10"};
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items, categories);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_items, categories);
         //numberList = (ExpandableListView)findViewById(R.id.numberList);
         //numberList.setAdapter(adapter);
 

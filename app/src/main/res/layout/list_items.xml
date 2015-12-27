@@ -8,6 +8,6 @@
     android:gravity="center"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:id="@+id/meal_items">
+    android:id="@+id/list_items">
 
 </TextView>

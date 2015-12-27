@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#0099cc"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="17dp"
+    android:paddingBottom="17dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New List"
+        android:onClick="NewList"
+        android:id="@+id/newListbutton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/newListbutton"
+        android:id="@+id/relativeLayout">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/PickLists"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:contentDescription="Pick Lists"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
