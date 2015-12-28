@@ -30,11 +30,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LIST_INFO_TABLE = "CREATE TABLE " + TABLE_LIST_INFO + " (" +
-                COLUMN_LIST_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_LIST_ID + "  INTEGER PRIMARY KEY NOT NULL, " +
                 COLUMN_NAME + " TEXT (1) NOT NULL, " +
                 COLUMN_SIZE + " number (1) DEFAULT (2))";
         String CREATE_LIST_CONTENTS_TABLE = "CREATE TABLE " + TABLE_LIST_CONTENTS + " (" +
-                COLUMN_LIST_ID + " INTEGER REFERENCES " + TABLE_LIST_INFO + " (ID), " +
+                COLUMN_LIST_ID + " INTEGER REFERENCES " + TABLE_LIST_INFO + " (" + COLUMN_LIST_ID + "), " +
                 COLUMN_NAME +" TEXT (1) NOT NULL)";
         db.execSQL(CREATE_LIST_INFO_TABLE);
         db.execSQL(CREATE_LIST_CONTENTS_TABLE);
@@ -57,12 +57,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addList(String name, List<String> contents, SQLiteDatabase db){
         if(contents.size() < 2)
         { return; }
-
-        //SQLiteDatabase db = this.getWritableDatabase();
         int lastRowId;
 
         String insertStatement = "INSERT INTO " + TABLE_LIST_INFO + " (" + COLUMN_NAME + ", " + COLUMN_SIZE + ")\n" +
-                "VALUES ('" + name + "', " + contents.size() + ")";
+                "VALUES ('" + name + "', " + contents.size() + ");";
         db.execSQL(insertStatement);
 
 
@@ -75,12 +73,39 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             insertStatement = insertStatement + "union SELECT " + lastRowId + ", '" + contents.get(i) + "'\n";
         }
+        insertStatement = insertStatement + ";";
         db.execSQL(insertStatement);
         c.close();
     }
 
+    public void addList(String name, List<String> contents){
+        if(contents.size() < 2)
+        { return; }
+        int lastRowId;
 
-    public List <PickList> getPickListsNames ()
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_LIST_INFO + " (" + COLUMN_NAME + ", " + COLUMN_SIZE + ")\n" +
+                "VALUES ('" + name + "', " + contents.size() + ");";
+        db.execSQL(insertStatement);
+
+
+        Cursor c = db.rawQuery("SELECT last_insert_rowid()", null);
+        c.moveToFirst();
+        lastRowId = c.getInt(0);
+        insertStatement = "INSERT INTO " + TABLE_LIST_CONTENTS + " (" + COLUMN_LIST_ID + ", " + COLUMN_NAME + ")\n" +
+                "SELECT " + lastRowId + ", '" + contents.get(0) + "'\n";
+        for(int i = 1; i < contents.size(); i++)
+        {
+            insertStatement = insertStatement + "union SELECT " + lastRowId + ", '" + contents.get(i) + "'\n";
+        }
+        insertStatement = insertStatement + ";";
+        db.execSQL(insertStatement);
+        c.close();
+        db.close();
+    }
+
+
+    public List <PickList> getPickListsNameIdSize ()
     {
         List<PickList> list = new ArrayList<>();
         PickList tempList;
@@ -91,7 +116,9 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             do {
                 tempList = new PickList();
+                tempList.ID = i.getInt(0);
                 tempList.Name = i.getString(1);
+                tempList.Size = i.getInt(2);
                 list.add(tempList);
             }while(i.moveToNext());
         }
@@ -103,7 +130,7 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         PickList list = new PickList();
         SQLiteDatabase db = this.getReadableDatabase();
-        String getListQuery = "SELECT " + COLUMN_NAME + " FROM " + TABLE_LIST_CONTENTS + "WHERE " + COLUMN_LIST_ID + "=" + id;
+        String getListQuery = "SELECT * FROM " + TABLE_LIST_CONTENTS + " WHERE " + COLUMN_LIST_ID + "=" + id;
         Cursor i = db.rawQuery(getListQuery, null);
         int k = 0;
         if(i.moveToFirst())
@@ -112,7 +139,7 @@ public class DBHelper extends SQLiteOpenHelper {
             list.Name = name;
             list.Size = size;
             do {
-                list.Contents.add(i.getString(0));
+                list.Contents.add(i.getString(1));
                 k++;
             }while(i.moveToNext());
         }

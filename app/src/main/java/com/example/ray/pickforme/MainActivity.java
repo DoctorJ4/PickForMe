@@ -5,6 +5,7 @@ import com.example.ray.pickforme.util.SystemUiHider;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbHelper = new DBHelper(this);
-        PickLists.addAll(dbHelper.getPickListsNames());
+        PickLists.addAll(dbHelper.getPickListsNameIdSize());
         createPickList();
     }
 
@@ -54,7 +55,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         PickLists.clear();
-        PickLists.addAll(dbHelper.getPickListsNames());
+        PickLists.addAll(dbHelper.getPickListsNameIdSize());
         createPickList();
     }
 

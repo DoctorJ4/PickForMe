@@ -1,13 +1,16 @@
 package com.example.ray.pickforme;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -16,7 +19,9 @@ import java.util.Random;
 
 public class ListViewActivity extends Activity {
     List<Integer> editBoxIdList = new ArrayList<>();
-    LinearLayout newListLayout;
+    DBHelper dbHelper;
+    PickList list = new PickList();
+    LinearLayout listLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,38 +30,29 @@ public class ListViewActivity extends Activity {
         if (extras == null) {
             return;
         }
-        String name = extras.getString("Name");
-        int ID = extras.getInt("ID");
-        int size = extras.getInt("Size");
+        dbHelper = new DBHelper(this);
+        list = dbHelper.getPickList(extras.getInt("ID"), extras.getString("Name"), extras.getInt("Size"));
         setContentView(R.layout.activity_listview);
-        setTitle(name);
+        setTitle(list.Name);
 
-        newListLayout = (LinearLayout)findViewById(R.id.editListLayout);
-        //EditText newBox = new EditText(new ContextThemeWrapper(this, R.layout.editTextBox), null, 0);// getBaseContext(), null, R.style.EditTextViewStyle);
-        //EditText newBox = (EditText)findViewById(R.layout.editTextBox);
-        //newBox.setTextAppearance(this, R.style.EditTextViewStyle);
-        //newListLayout.setOnClickListener(null);
-        //newListLayout.addView(newBox);
+        listLayout = (LinearLayout)findViewById(R.id.scrollList);
+        CustomEditText newBox;
 
-        List<String> listTemp = new ArrayList<>();
-        listTemp.add("one");
-        listTemp.add("six");
+        if(list.Size < 0){
+            list.Name = "New List";
+            list.Size = 10;
+            for(int i = 0; i < list.Size; i++)
+                list.Contents.add("");
+        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.newlistbox, listTemp);
-        final ListView planTag = (ListView) findViewById(R.id.ListBoxes);
-        planTag.setAdapter(adapter);
-
-        /*
-        editBoxIdList.add(R.id.editText0);
-        editBoxIdList.add(R.id.editText1);
-        editBoxIdList.add(R.id.editText2);
-        editBoxIdList.add(R.id.editText3);
-        editBoxIdList.add(R.id.editText4);
-        editBoxIdList.add(R.id.editText5);
-        editBoxIdList.add(R.id.editText6);
-        editBoxIdList.add(R.id.editText7);
-        editBoxIdList.add(R.id.editText8);
-        editBoxIdList.add(R.id.editText9);*/
+        for(int i = 0; i < list.Size; i++) {
+            Log.d("Test here contents", list.Contents.get(i));
+            newBox = new CustomEditText(this);
+            newBox.setText(list.Contents.get(i));
+            newBox.setId(newBox.generateViewId());
+            editBoxIdList.add(newBox.getId());
+            listLayout.addView(newBox);
+        }
 
     }
 
@@ -97,6 +93,25 @@ public class ListViewActivity extends Activity {
         return false;
     }
 
-
+    public void SaveList(View view)
+    {
+        if(!fieldsCheck())
+        {
+            Toast.makeText(this, "You need to supply me with more than one thing to pick from.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            List<String> saveList = new ArrayList<>();
+            EditText picked;
+            String temp;
+            for (int i = 0; i < editBoxIdList.size(); i++) {
+                picked = (EditText) findViewById(editBoxIdList.get(i));
+                if (picked.getText().length() > 0) {
+                    saveList.add(picked.getText().toString());
+                }
+            }
+            dbHelper.addList("New List!!!", saveList);
+            Toast.makeText(this, "List Saved", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
