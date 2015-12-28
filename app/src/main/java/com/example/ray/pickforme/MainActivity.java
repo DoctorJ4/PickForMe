@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 
     public void NewList(View view)
     {
-        Intent act = new Intent(getApplicationContext(), FullscreenActivity.class);
+        Intent act = new Intent(getApplicationContext(), ListViewActivity.class);
         act.putExtra("Name", "New");
         act.putExtra("ID", "-1");
         act.putExtra("Size", "0");
@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
         planTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent act = new Intent(getApplicationContext(), FullscreenActivity.class);
+                Intent act = new Intent(getApplicationContext(), ListViewActivity.class);
                 act.putExtra("Name", PickLists.get(position).Name);
                 act.putExtra("ID", PickLists.get(position).ID);
                 act.putExtra("Size", PickLists.get(position).Size);

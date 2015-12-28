@@ -24,4 +24,16 @@
     <!-- Backward-compatible version of ?android:attr/buttonBarButtonStyle -->
     <style name="ButtonBarButton" />
 
+    <style name="EditTextViewStyle">
+        <item name="android:layout_width">218dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@color/black_overlay</item>
+        <item name="android:hint">x???x</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
 </resources>
