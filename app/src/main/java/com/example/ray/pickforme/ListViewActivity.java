@@ -101,6 +101,11 @@ public class ListViewActivity extends Activity {
         return false;
     }
 
+    public void OverwriteList(View view)
+    {
+        getNameAndOverwrite();
+    }
+
     public void SaveList(View view)
     {
         if(!fieldsCheck())
@@ -119,7 +124,7 @@ public class ListViewActivity extends Activity {
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
         // Set up the buttons
@@ -136,7 +141,7 @@ public class ListViewActivity extends Activity {
                     }
                 }
                 dbHelper.addList(getNewName, saveList);
-                Toast.makeText(thisContext, "List Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(thisContext, "List Saved", Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -149,4 +154,40 @@ public class ListViewActivity extends Activity {
         builder.show();
     }
 
+    private void getNameAndOverwrite(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String getNewName = input.getText().toString();
+                List<String> saveList = new ArrayList<>();
+                EditText picked;
+                for (int i = 0; i < editBoxIdList.size(); i++) {
+                    picked = (EditText) findViewById(editBoxIdList.get(i));
+                    if (picked.getText().length() > 0) {
+                        saveList.add(picked.getText().toString());
+                    }
+                }
+                dbHelper.overwriteList(list.ID, getNewName, saveList);
+                Toast.makeText(thisContext, "List Saved", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }

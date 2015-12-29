@@ -156,6 +156,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void overwriteList(int id, String name, List<String> contents)
+    {
+        deleteList(id);
+        addList(name, contents);
+    }
+
     private void defaultList(SQLiteDatabase db){
         List<String> defaultList = new ArrayList<>();
         defaultList.add("One");

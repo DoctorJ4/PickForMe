@@ -68,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Overwrite"
+        android:onClick="OverwriteList"
         android:id="@+id/button"
         android:layout_below="@+id/Result"
         android:layout_centerHorizontal="true" />
