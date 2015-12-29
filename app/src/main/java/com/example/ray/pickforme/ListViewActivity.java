@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,7 +62,6 @@ public class ListViewActivity extends Activity {
             editBoxIdList.add(newBox.getId());
             listLayout.addView(newBox);
         }
-
     }
 
     public void PickOne (View view)
@@ -160,6 +160,7 @@ public class ListViewActivity extends Activity {
 
         // Set up the input
         final EditText input = new EditText(this);
+        input.setText(list.Name);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -178,7 +179,7 @@ public class ListViewActivity extends Activity {
                     }
                 }
                 dbHelper.overwriteList(list.ID, getNewName, saveList);
-                Toast.makeText(thisContext, "List Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(thisContext, "List Overwritten", Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
