@@ -10,8 +10,6 @@
         android:id="@+id/pickButton"
         android:onClick="PickOne"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginRight="55dp"
-        android:layout_marginEnd="55dp"
         android:layout_below="@+id/Result"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -20,14 +18,12 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="Save New"
         android:id="@+id/SaveButton"
         android:onClick="SaveList"
         android:layout_below="@+id/Result"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="55dp"
-        android:layout_marginStart="55dp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,23 +33,28 @@
         android:textSize="30dp"
         android:gravity="center_horizontal"
         android:layout_marginTop="63dp"
+        android:paddingBottom="4dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:minWidth="400dp"
-        android:minHeight="100dp"
-
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="4dp"
 
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/SaveButton"
-        android:layout_alignStart="@+id/SaveButton"
-        android:layout_alignRight="@+id/pickButton"
-        android:layout_alignEnd="@+id/pickButton"
-        android:layout_below="@+id/pickButton">
+        android:layout_below="@+id/SaveButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -62,6 +63,14 @@
             android:id="@+id/scrollList"></LinearLayout>
     </ScrollView>
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Overwrite"
+        android:id="@+id/button"
+        android:layout_below="@+id/Result"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

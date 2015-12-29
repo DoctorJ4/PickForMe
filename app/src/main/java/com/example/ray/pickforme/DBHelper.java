@@ -147,6 +147,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public void deleteList(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteFromContents = "DELETE FROM " + TABLE_LIST_CONTENTS + " WHERE " + COLUMN_LIST_ID + "=" + id;
+        String deleteFromInfo = "DELETE FROM " + TABLE_LIST_INFO + " WHERE " + COLUMN_LIST_ID + "=" + id;
+        db.execSQL(deleteFromContents);
+        db.execSQL(deleteFromInfo);
+        db.close();
+    }
+
     private void defaultList(SQLiteDatabase db){
         List<String> defaultList = new ArrayList<>();
         defaultList.add("One");
@@ -155,5 +164,11 @@ public class DBHelper extends SQLiteOpenHelper {
         defaultList.add("Four");
         defaultList.add("Five");
         addList("Default", defaultList, db);
+    }
+
+    private boolean findList(SQLiteDatabase db)
+    {
+
+        return false;
     }
 }

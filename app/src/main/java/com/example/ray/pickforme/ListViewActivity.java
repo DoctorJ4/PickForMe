@@ -40,9 +40,17 @@ public class ListViewActivity extends Activity {
 
         if(list.Size < 0){
             list.Name = "New List";
-            list.Size = 10;
+            list.Size = 100;
             for(int i = 0; i < list.Size; i++)
                 list.Contents.add("");
+        }
+
+        if(list.Size < 100)
+        {
+            for(int i = list.Size; i < 100; i++) {
+                list.Contents.add("");
+            }
+            list.Size = 100;
         }
 
         for(int i = 0; i < list.Size; i++) {
