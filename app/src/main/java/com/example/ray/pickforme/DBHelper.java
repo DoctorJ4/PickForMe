@@ -81,26 +81,22 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addList(String name, List<String> contents){
         if(contents.size() < 2)
         { return; }
-        int lastRowId;
 
+        long lastRowId;
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_LIST_INFO + " (" + COLUMN_NAME + ", " + COLUMN_SIZE + ")\n" +
-                "VALUES ('" + name + "', " + contents.size() + ");";
-        db.execSQL(insertStatement);
+        ContentValues values = new ContentValues();
+        
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_SIZE, contents.size());
+        lastRowId = db.insert(TABLE_LIST_INFO, null, values);
 
-
-        Cursor c = db.rawQuery("SELECT last_insert_rowid()", null);
-        c.moveToFirst();
-        lastRowId = c.getInt(0);
-        insertStatement = "INSERT INTO " + TABLE_LIST_CONTENTS + " (" + COLUMN_LIST_ID + ", " + COLUMN_NAME + ")\n" +
-                "SELECT " + lastRowId + ", '" + contents.get(0) + "'\n";
-        for(int i = 1; i < contents.size(); i++)
+        for(int i = 0; i < contents.size(); i++)
         {
-            insertStatement = insertStatement + "union SELECT " + lastRowId + ", '" + contents.get(i) + "'\n";
+            values = new ContentValues();
+            values.put(COLUMN_LIST_ID, lastRowId);
+            values.put(COLUMN_NAME, contents.get(i));
+            db.insert(TABLE_LIST_CONTENTS, null, values);
         }
-        insertStatement = insertStatement + ";";
-        db.execSQL(insertStatement);
-        c.close();
         db.close();
     }
 
@@ -158,8 +154,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void overwriteList(int id, String name, List<String> contents)
     {
-        deleteList(id);
         addList(name, contents);
+        deleteList(id);
     }
 
     private void defaultList(SQLiteDatabase db){
@@ -172,9 +168,4 @@ public class DBHelper extends SQLiteOpenHelper {
         addList("Default", defaultList, db);
     }
 
-    private boolean findList(SQLiteDatabase db)
-    {
-
-        return false;
-    }
 }
