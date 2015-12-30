@@ -140,7 +140,9 @@ public class ListViewActivity extends Activity {
                         saveList.add(picked.getText().toString());
                     }
                 }
-                dbHelper.addList(getNewName, saveList);
+                list.ID = dbHelper.addList(getNewName, saveList);
+                list.Name = getNewName;
+                setTitle(getNewName);
                 Toast.makeText(thisContext, "List Saved", Toast.LENGTH_LONG).show();
             }
         });
@@ -178,7 +180,9 @@ public class ListViewActivity extends Activity {
                         saveList.add(picked.getText().toString());
                     }
                 }
-                dbHelper.overwriteList(list.ID, getNewName, saveList);
+                list.ID = dbHelper.overwriteList(list.ID, getNewName, saveList);
+                list.Name = getNewName;
+                setTitle(getNewName);
                 Toast.makeText(thisContext, "List Overwritten", Toast.LENGTH_LONG).show();
             }
         });

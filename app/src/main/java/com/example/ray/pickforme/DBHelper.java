@@ -5,9 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 /**
@@ -55,8 +56,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void addList(String name, List<String> contents, SQLiteDatabase db){
-        if(contents.size() < 2)
-        { return; }
         int lastRowId;
 
         String insertStatement = "INSERT INTO " + TABLE_LIST_INFO + " (" + COLUMN_NAME + ", " + COLUMN_SIZE + ")\n" +
@@ -78,10 +77,8 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
     }
 
-    public void addList(String name, List<String> contents){
-        if(contents.size() < 2)
-        { return; }
-
+    public int addList(String name, List<String> contents){
+        Collections.sort(contents);
         long lastRowId;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -98,6 +95,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.insert(TABLE_LIST_CONTENTS, null, values);
         }
         db.close();
+        return (int)(lastRowId);
     }
 
 
@@ -152,10 +150,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void overwriteList(int id, String name, List<String> contents)
+    public int overwriteList(int id, String name, List<String> contents)
     {
-        addList(name, contents);
+        long newId = addList(name, contents);
         deleteList(id);
+        return (int)newId;
     }
 
     private void defaultList(SQLiteDatabase db){
