@@ -18,7 +18,7 @@ public class CustomEditText extends EditText {
         this.setBackgroundColor(Color.TRANSPARENT);
         this.setShadowLayer(4, 2, 2, Color.DKGRAY);
         //this.setTextColor(getResources().getColor(R.color.black_overlay));
-        //this.setTextColor(getResources().getColor(android.R.color.black));
+        this.setTextColor(getResources().getColor(android.R.color.white));
         //this.setTextAppearance(context, android.R.style.TextAppearance_Large);
         this.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         this.setPadding(0, 4, 0, 4);

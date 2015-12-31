@@ -9,8 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ListViewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" >
+            android:configChanges="orientation|keyboardHidden|screenSize">
 
         </activity>
         <activity
