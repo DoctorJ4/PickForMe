@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.ray.pickforme.util.NativelyCustomTextViewDelete xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/holo_red_dark"
-    android:textColor="@android:color/white"
+    android:background="@android:color/transparent"
+    android:textColor="@android:color/holo_red_dark"
     android:gravity="center"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:id="@+id/list_items">
+    android:id="@+id/list_items"
+    android:textSize="40sp"
+    android:shadowColor="@android:color/black"
+    android:shadowDx="2"
+    android:shadowDy="2"
+    android:shadowRadius="4">
 
-</TextView>
+</com.example.ray.pickforme.util.NativelyCustomTextViewDelete>
